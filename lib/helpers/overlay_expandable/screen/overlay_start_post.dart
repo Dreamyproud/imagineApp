@@ -16,30 +16,16 @@ class RenderOverlay {
       VoidCallback closePressed) {
 
     return OverlayExpandable(
-      children: _getChildren(data, data, pointTypeIcon),
+      children: _getChildren(),
       buttonLabel: 'NAME',//data.name,
       onButtonPressed: () {},
       onClosedPressed: closePressed,
     );
   }
 
-  static List<Widget> _getChildren(OverlayOptionModel model,
-      OverlayOptionModel data, IconData icon) {
+  static List<Widget> _getChildren() {
     List<Widget> elements = [];
-
-    elements.add(CircleAvatar(
-      backgroundColor: ColorsGuide.ACTION_PRIMARY,
-      radius: 20.0,
-      //child: Icon(icon, color: ColorsGuide.BG_BLACK),
-      child: Icon(FontAwesomeIcons.font, color: ColorsGuide.BG_BLACK),
-    ));
-
-    elements.add(SizedBox(height: 8));
-    //elements.add(Text(data.name,textAlign: TextAlign.center));
-    elements.add(Text('data.name',textAlign: TextAlign.center));
-    elements.add(SizedBox(height: 8));
-    elements.add(Icon(FontAwesomeIcons.font));
-    elements.add(SizedBox(height: 8));
+    elements.add(Text("xx"));
 
     return elements;
   }

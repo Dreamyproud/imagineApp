@@ -14,7 +14,13 @@ class _StartPostBodyState extends State<StartPostBody> {
   OverlayOptionModel options;
   String imgUrl =
       "https://png.pngtree.com/png-clipart/20190516/original/pngtree-users-vector-icon-png-image_3725294.jpg";
+  Widget _renderModal ;
 
+  @override
+  void initState() {
+    super.initState();
+    _renderModal = SizedBox.shrink();
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -71,6 +77,7 @@ class _StartPostBodyState extends State<StartPostBody> {
           )
         ),
         _getSizedBox(context),
+        _renderModal
       ],
     );
   }
@@ -138,12 +145,20 @@ class _StartPostBodyState extends State<StartPostBody> {
                   onPressed: null,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0))),
+            //  _showModal(options)
             ],
           )
         )
       ],
     );
   }
+
+  /**
+   *  Widget _showModal(OverlayOptionModel data) {
+      return RenderOverlay.getModal(
+      data, FontAwesomeIcons.font, _closedModal);
+      }
+   */
 
   void _closedModal() {
     setState(() {});
