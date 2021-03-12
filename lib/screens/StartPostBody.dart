@@ -26,35 +26,47 @@ class _StartPostBodyState extends State<StartPostBody> {
 
   Widget _startPost(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      child: _createStartPost(context)
-    );
+        width: MediaQuery.of(context).size.width,
+        child: _createStartPost(context));
   }
 
   _createStartPost(context) {
     return Column(
       children: <Widget>[
         Container(
-            color: Colors.white,
-            child:TextFormField(
+          width:  MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.20,
+          color: Colors.white,
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+            child: Theme(
+            data: Theme.of(context).copyWith(splashColor: Colors.transparent),
+            child: TextField(
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
               autofocus: false,
+              textAlign: TextAlign.justify,
+              textInputAction: TextInputAction.newline,
+              scrollPhysics: NeverScrollableScrollPhysics(),
+              style: TextStyle(fontSize: 18.0, color: Color(0xFFbdc6cf)),
               decoration: InputDecoration(
-                hintText: 'What do you want to talk about',
-                alignLabelWithHint: true,
-                contentPadding: new EdgeInsets.symmetric(vertical: 100.0, horizontal: 10.0),
+                filled: true,
+                hintMaxLines: 3,
+                fillColor: Colors.white,
+                hintText: 'What do yo want to talk about?',
+                contentPadding:
+                const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(25.7),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(25.7),
+                ),
               ),
-              validator: (val) {
-                if(val.length==0) {
-                  return "Email cannot be empty";
-                }else{
-                  return null;
-                }
-              },
-              keyboardType: TextInputType.emailAddress,
-              style: new TextStyle(
-                fontFamily: "Poppins",
-              ),
-            ),),
+            ),
+          )
+        ),
         _getSizedBox(context),
       ],
     );
@@ -108,40 +120,47 @@ class _StartPostBodyState extends State<StartPostBody> {
           ],
         ),
         Align(
-          alignment: Alignment.topCenter,
-          child: Row(
-            children: [
-              OutlineButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(FontAwesomeIcons.solidUser, color: Colors.grey, size: 15),
-                      Text("Nicolas Rojas Nino"),
-                    ],
-                  ),
-                  onPressed: null,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0))),
-              SizedBox(width: 10,),
-              OutlineButton(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(FontAwesomeIcons.globeAmericas, color: Colors.grey, size: 15),
-                      Text("Anyone"),
-                      Icon(FontAwesomeIcons.sortDown, color: Colors.grey, size: 15),
-
-                    ],
-                  ),
-                  onPressed: null,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)))
-            ],
-          )
-        )
+            alignment: Alignment.topCenter,
+            child: Row(
+              children: [
+                OutlineButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(FontAwesomeIcons.solidUser,
+                            color: Colors.grey, size: 15),
+                        SizedBox(width: 8,),
+                        Text("Nicolas Rojas Nino"),
+                      ],
+                    ),
+                    onPressed: null,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0))),
+                SizedBox(
+                  width: 10,
+                ),
+                OutlineButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(FontAwesomeIcons.globeAmericas,
+                            color: Colors.grey, size: 15),
+                        SizedBox(width: 8,),
+                        Text("Anyone"),
+                        SizedBox(width: 8,),
+                        Icon(FontAwesomeIcons.sortDown,
+                            color: Colors.grey, size: 15),
+                      ],
+                    ),
+                    onPressed: null,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)))
+              ],
+            ))
       ],
     );
   }
+
   _getSizedBox(context) => SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 12,
