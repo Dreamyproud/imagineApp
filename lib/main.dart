@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:linkedin/screens/HomeTemplate.dart';
-import 'package:linkedin/screens/StartPostTemplate.dart';
+import 'package:linkedin/screens/home_template.dart';
+import 'package:linkedin/screens/start_post_template.dart';
 
 void main() {
   runApp(MyApp());

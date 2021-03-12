@@ -1,4 +1,4 @@
-import 'package:linkedin/models/UserModel.dart';
+import 'package:linkedin/models/user_model.dart';
 
 class Repository{
   static final List<UserModel> postList =[

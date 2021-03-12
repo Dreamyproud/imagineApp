@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin/helpers/overlay_expandable/screen/overlay_start_post.dart';
+import 'package:linkedin/models/overlay_option_model.dart';
 import 'package:linkedin/repository/repository.dart';
 
 class StartPostBody extends StatefulWidget {
@@ -9,8 +11,9 @@ class StartPostBody extends StatefulWidget {
 
 class _StartPostBodyState extends State<StartPostBody> {
   final _post = Repository.postList;
+  OverlayOptionModel options;
   String imgUrl =
-      "https://media-exp1.licdn.com/dms/image/C4D35AQFGSNotlnM8mA/profile-framedphoto-shrink_200_200/0/1614185454794?e=1615525200&v=beta&t=sn7BZsg5KrYg3hvIoTLPOmRYxWHZZ10a5zK-3E2JLsA";
+      "https://png.pngtree.com/png-clipart/20190516/original/pngtree-users-vector-icon-png-image_3725294.jpg";
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +63,6 @@ class _StartPostBodyState extends State<StartPostBody> {
     );
   }
 
-  Widget _getText(String name) {
-    return Container(
-      width: 250,
-      child: Text(
-        name,
-        style: TextStyle(fontSize: 12, color: Colors.black54),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-      ),
-    );
-  }
-
   Widget _headerStartPost() {
     return Container(
         color: Colors.white,
@@ -115,33 +106,37 @@ class _StartPostBodyState extends State<StartPostBody> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(FontAwesomeIcons.solidUser, color: Colors.grey, size: 15),
+                      Icon(FontAwesomeIcons.solidUser, color: Colors.grey, size: 10.0),
                       Text("Nicolas Rojas Nino"),
                     ],
                   ),
                   onPressed: null,
                   shape: RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0))),
-              SizedBox(width: 10,),
+              SizedBox(width: 8.0,),
               OutlineButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(FontAwesomeIcons.globeAmericas, color: Colors.grey, size: 15),
+                      Icon(FontAwesomeIcons.globeAmericas, color: Colors.grey, size: 10.0),
                       Text("Anyone"),
-                      Icon(FontAwesomeIcons.sortDown, color: Colors.grey, size: 15),
-
+                    //  Icon(FontAwesomeIcons.sortDown, color: Colors.grey, size: 15),
                     ],
                   ),
                   onPressed: null,
                   shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)))
+                      borderRadius: new BorderRadius.circular(30.0))),
             ],
           )
         )
       ],
     );
   }
+
+  void _closedModal() {
+    setState(() {});
+  }
+
   _getSizedBox(context) => SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 12,

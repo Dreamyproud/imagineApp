@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:linkedin/screens/BodyTemplate.dart';
+import 'package:linkedin/screens/body_template.dart';
 
 class HomeTemplate extends StatefulWidget {
   final dynamic body;
