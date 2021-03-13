@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin/models/post_model.dart';
-import 'package:linkedin/presenter/home_presenter.dart';
 import 'package:linkedin/repository/repository.dart';
+import 'package:linkedin/screens/home_template.dart';
 
 class BodyTemplate extends StatefulWidget {
   @override
@@ -18,28 +18,143 @@ class _BodyTemplateState extends State<BodyTemplate> {
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            //HomePresenter()
-            //_stories(),
-            //_getSizedBox(context),
-            //_posts(context),
+            _stories(),
+            _getSizedBox(context),
+            _posts(context)
           ],
         ),
       );
 
-  Widget _posts(BuildContext context) =>
-      Container(width: MediaQuery.of(context).size.width, child: _createPost());
-
-  _createPost() => Container(
-        color: Colors.white,
-        child: Text("xx")
+  Widget _posts(BuildContext context) => Container(
+        width: MediaQuery.of(context).size.width,
+        child: ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, i) => _createPostNew()),
       );
 
-  List<Widget> listado(List<dynamic> info) {
-    List<Widget> lista = [];
-    info.forEach((elemento) {
-      lista.add(Text(elemento["name"]));
-    });
-    return lista;
+  Widget _createPostNew() {
+    return FutureBuilder(
+
+      future: httpService.getPosts(),
+      builder: (BuildContext context, AsyncSnapshot<List<PostModel>> snapshot) {
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+          List<PostModel> posts = snapshot.data;
+          return Column(
+              children: posts
+                  .map((PostModel post) => Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: 12.0,
+                                      left: 18.0,
+                                      bottom: 12.0,
+                                      right: 12.0),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50.0),
+                                    child: Image(
+                                      image: NetworkImage(imgUrl),
+                                      height: 45.0,
+                                      width: 45.0,
+                                    ),
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${post.name}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15.0),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                    _getText('${post.position}'),
+                                    _getText('${post.date}'),
+                                  ],
+                                ),
+                                Expanded(child: SizedBox()),
+                                IconButton(
+                                  icon: Icon(Icons.more_horiz),
+                                  iconSize: 30.0,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "${post.summary}",
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  FadeInImage(
+                                    image: NetworkImage(imgUrl),
+                                    placeholder: NetworkImage(
+                                      'https://www.icegif.com/wp-content/uploads/loading-icegif-1.gif',
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          Container(
+                              color: Colors.white,
+                              alignment: Alignment.topLeft,
+                              padding: EdgeInsets.only(
+                                  top: 5.0, bottom: 5.0, left: 20),
+                              child: Row(
+                                children: [
+                                  _getIconWithOval(
+                                      FontAwesomeIcons.solidThumbsUp,
+                                      Colors.blue,
+                                      Colors.white),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 6),
+                                    child: Text("2",
+                                        style: TextStyle(
+                                            color: Colors.grey, fontSize: 12)),
+                                  )
+                                ],
+                              )),
+                          Divider(
+                            height: 5,
+                            color: Colors.grey[350],
+                            indent: 2,
+                            thickness: 0.0,
+                          ),
+                          Container(
+                              padding:
+                                  EdgeInsets.only(top: 5, left: 40, right: 40),
+                              color: Colors.white,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _returnButtons(
+                                      FontAwesomeIcons.thumbsUp, 'Like'),
+                                  _returnButtons(
+                                      FontAwesomeIcons.commentDots, 'Comment'),
+                                  _returnButtons(
+                                      FontAwesomeIcons.share, 'Share'),
+                                  _returnButtons(
+                                      FontAwesomeIcons.paperPlane, 'Send'),
+                                ],
+                              )),
+                          _getSizedBox(context),
+                        ],
+                      ))
+                  .toList());
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 
   Widget _stories() => Container(

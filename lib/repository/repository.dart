@@ -16,9 +16,9 @@ class Repository {
             (dynamic item) => PostModel.fromJson(item),
           )
           .toList();
-
       return posts;
     } else {
+      print("xx1");
       throw "Can't get posts.";
     }
   }
