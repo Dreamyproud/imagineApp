@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin/helpers/responsive_design/responsive_design.dart';
 import 'package:linkedin/models/post_model.dart';
 import 'package:linkedin/repository/repository.dart';
-import 'package:linkedin/screens/home_template.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class BodyTemplate extends StatefulWidget {
   @override
@@ -14,33 +15,35 @@ class _BodyTemplateState extends State<BodyTemplate> {
       "https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png";
 
   final Repository httpService = Repository();
+  final RefreshController _refreshController = RefreshController();
+  ResponsiveDesign _responsiveDesign;
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            _stories(),
-            _getSizedBox(context),
-            _posts(context)
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    _responsiveDesign = ResponsiveDesign(context);
+
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[_stories(), _getSizedBox(context), _posts(context)],
+      ),
+    );
+  }
 
   Widget _posts(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
         child: ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 10,
+            itemCount: 1,
             itemBuilder: (context, i) => _createPostNew()),
       );
 
   Widget _createPostNew() {
     return FutureBuilder(
-
       future: httpService.getPosts(),
       builder: (BuildContext context, AsyncSnapshot<List<PostModel>> snapshot) {
-        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
+        if (snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done) {
           List<PostModel> posts = snapshot.data;
           return Column(
               children: posts
@@ -83,27 +86,38 @@ class _BodyTemplateState extends State<BodyTemplate> {
                                 IconButton(
                                   icon: Icon(Icons.more_horiz),
                                   iconSize: 30.0,
-                                ),
+                                  onPressed: () {
+                                    showAlertDialog(context);
+                                  },
+                                )
                               ],
                             ),
                           ),
                           Container(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              width: MediaQuery.of(context).size.width,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "${post.summary}",
-                                    textAlign: TextAlign.start,
-                                  ),
-                                  FadeInImage(
-                                    image: NetworkImage(imgUrl),
-                                    placeholder: NetworkImage(
-                                      'https://www.icegif.com/wp-content/uploads/loading-icegif-1.gif',
-                                    ),
-                                  ),
-                                ],
-                              )),
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
+                              children: [
+                                Text(
+                                  "${post.summary}",
+                                  textAlign: TextAlign.start,
+                                ),
+                                SizedBox(
+                                  height:
+                                      _responsiveDesign.heightMultiplier(20),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FadeInImage(
+                            alignment: Alignment.center,
+                            width: _responsiveDesign.widthMultiplier(200),
+                            image: NetworkImage(imgUrl),
+                            placeholder: NetworkImage(
+                              'https://www.icegif.com/wp-content/uploads/loading-icegif-1.gif',
+                            ),
+                          ),
                           Container(
                               color: Colors.white,
                               alignment: Alignment.topLeft,
@@ -158,101 +172,36 @@ class _BodyTemplateState extends State<BodyTemplate> {
     );
   }
 
-  _createPost(context) => Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: 12.0, left: 18.0, bottom: 12.0, right: 12.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Image(
-                        image: NetworkImage(imgUrl),
-                        height: 45.0,
-                        width: 45.0,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Santiago Estupiñan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15.0),
-                        textAlign: TextAlign.start,
-                      ),
-                      _getText('Data & Analitycs Consulting Intern at EY'),
-                      _getText('41m * Edited'),
-                    ],
-                  ),
-                  Expanded(child: SizedBox()),
-                  IconButton(
-                    icon: Icon(Icons.more_horiz),
-                    iconSize: 30.0,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Text(
-                      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                      textAlign: TextAlign.start,
-                    ),
-                    FadeInImage(
-                      image: NetworkImage(imgUrl),
-                      placeholder: NetworkImage(
-                        'https://www.icegif.com/wp-content/uploads/loading-icegif-1.gif',
-                      ),
-                    ),
-                  ],
-                )),
-            Container(
-                color: Colors.white,
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 20),
-                child: Row(
-                  children: [
-                    _getIconWithOval(FontAwesomeIcons.solidThumbsUp,
-                        Colors.blue, Colors.white),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6),
-                      child: Text("2",
-                          style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    )
-                  ],
-                )),
-            Divider(
-              height: 5,
-              color: Colors.grey[350],
-              indent: 2,
-              thickness: 0.0,
-            ),
-            Container(
-                padding: EdgeInsets.only(top: 5, left: 40, right: 40),
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _returnButtons(FontAwesomeIcons.thumbsUp, 'Like'),
-                    _returnButtons(FontAwesomeIcons.commentDots, 'Comment'),
-                    _returnButtons(FontAwesomeIcons.share, 'Share'),
-                    _returnButtons(FontAwesomeIcons.paperPlane, 'Send'),
-                  ],
-                )),
-            _getSizedBox(context),
-          ],
-        ),
-      );
+  showAlertDialog(BuildContext context) {
+    Widget cancelButton = FlatButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continuar"),
+      onPressed: () {
+        //httpService.deletePost();
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("¿Estás seguro de eliminar esta publicación?"),
+      content: Text("Recuerda que no podrás volver a verla."),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Widget _getText(String name) => Container(
         width: 250,

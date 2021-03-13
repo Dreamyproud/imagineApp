@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:linkedin/providers/home_provider.dart';
 import 'package:linkedin/screens/home_template.dart';
 import 'package:linkedin/screens/splash_screen/splash_screen.dart';
+import 'package:linkedin/screens/start_post_template.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,13 +12,19 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: HomeTemplate(),
-      routes: <String, WidgetBuilder>{
-        '/startPostPage': (BuildContext context) => new SplashScreen(),
-      },
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<HomeProvider>(
+              create: (context) => HomeProvider())
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          home: SplashScreen(),
+          routes: <String, WidgetBuilder>{
+            '/splashScreen': (BuildContext context) => new HomeTemplate(),
+            '/startPostPage': (BuildContext context) => new StartPostTemplate(),
+          },
+        ));
   }
 }
