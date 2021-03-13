@@ -56,7 +56,9 @@ PreferredSizeWidget getAppBar(context) => AppBar(
       centerTitle: true,
       actions: <Widget>[
         RaisedButton(
-          onPressed: () => {},
+          onPressed: () => {
+            print("crear post")
+          },
           elevation: 0,
           color: Colors.white,
           child: Text(
