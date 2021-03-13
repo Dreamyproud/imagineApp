@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linkedin/presenter/home_presenter.dart';
 import 'package:linkedin/screens/home_template.dart';
 import 'package:linkedin/screens/splash_screen/splash_screen.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: HomeTemplate(),
+      home: HomePresenter(),
       routes: <String, WidgetBuilder>{
         '/startPostPage': (BuildContext context) => new SplashScreen(),
       },

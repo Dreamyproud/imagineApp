@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin/models/post_model.dart';
+import 'package:linkedin/presenter/home_presenter.dart';
 import 'package:linkedin/repository/repository.dart';
 
 class BodyTemplate extends StatefulWidget {
@@ -8,136 +10,37 @@ class BodyTemplate extends StatefulWidget {
 }
 
 class _BodyTemplateState extends State<BodyTemplate> {
- // final _post = Repository.postList;
-
   String imgUrl =
       "https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png";
+  final Repository httpService = Repository();
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            _stories(),
-            _getSizedBox(context),
-            _posts(context),
+            //HomePresenter()
+            //_stories(),
+            //_getSizedBox(context),
+            //_posts(context),
           ],
         ),
       );
 
-  Widget _posts(BuildContext context) => Container(
-        width: MediaQuery.of(context).size.width,
-        child: ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 10,
-            itemBuilder: (context, i) => _createPost(context)),
-      );
+  Widget _posts(BuildContext context) =>
+      Container(width: MediaQuery.of(context).size.width, child: _createPost());
 
-  _createPost(context) => Container(
+  _createPost() => Container(
         color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            Container(
-              color: Colors.white,
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: 12.0, left: 18.0, bottom: 12.0, right: 12.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50.0),
-                      child: Image(
-                        image: NetworkImage(imgUrl),
-                        height: 45.0,
-                        width: 45.0,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Santiago Estupiñan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15.0),
-                        textAlign: TextAlign.start,
-                      ),
-                      _getText('Data & Analitycs Consulting Intern at EY'),
-                      _getText('41m * Edited'),
-                    ],
-                  ),
-                  Expanded(child: SizedBox()),
-                  IconButton(
-                    icon: Icon(Icons.more_horiz),
-                    iconSize: 30.0,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Text(
-                      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                      textAlign: TextAlign.start,
-                    ),
-                    FadeInImage(
-                      image: NetworkImage(imgUrl),
-                      placeholder: NetworkImage(
-                        'https://www.icegif.com/wp-content/uploads/loading-icegif-1.gif',
-                      ),
-                    ),
-                  ],
-                )),
-            Container(
-                color: Colors.white,
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 20),
-                child: Row(
-                  children: [
-                    _getIconWithOval(FontAwesomeIcons.solidThumbsUp,
-                        Colors.blue, Colors.white),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 6),
-                      child: Text("2",
-                          style: TextStyle(color: Colors.grey, fontSize: 12)),
-                    )
-                  ],
-                )),
-            Divider(
-              height: 5,
-              color: Colors.grey[350],
-              indent: 2,
-              thickness: 0.0,
-            ),
-            Container(
-                padding: EdgeInsets.only(top: 5, left: 40, right: 40),
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _returnButtons(FontAwesomeIcons.thumbsUp, 'Like'),
-                    _returnButtons(FontAwesomeIcons.commentDots, 'Comment'),
-                    _returnButtons(FontAwesomeIcons.share, 'Share'),
-                    _returnButtons(FontAwesomeIcons.paperPlane, 'Send'),
-                  ],
-                )),
-            _getSizedBox(context),
-          ],
-        ),
+        child: Text("xx")
       );
 
-  Widget _getText(String name) => Container(
-        width: 250,
-        child: Text(
-          name,
-          style: TextStyle(fontSize: 12, color: Colors.black54),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-        ),
-      );
+  List<Widget> listado(List<dynamic> info) {
+    List<Widget> lista = [];
+    info.forEach((elemento) {
+      lista.add(Text(elemento["name"]));
+    });
+    return lista;
+  }
 
   Widget _stories() => Container(
       color: Colors.white,
@@ -152,19 +55,6 @@ class _BodyTemplateState extends State<BodyTemplate> {
       shrinkWrap: true,
       itemCount: 10,
       itemBuilder: (context, i) => _buttonStories());
-
-  Widget _returnButtons(IconData icono, String texto) => Column(
-        children: [
-          Icon(
-            icono,
-            size: 16,
-            color: Colors.grey,
-          ),
-          SizedBox(height: 4.0),
-          Text(texto, style: TextStyle(fontSize: 12, color: Colors.grey)),
-          SizedBox(height: 8)
-        ],
-      );
 
   Widget _buttonStories() => Column(
         children: [
@@ -217,6 +107,19 @@ class _BodyTemplateState extends State<BodyTemplate> {
         ],
       );
 
+  Widget _returnButtons(IconData icono, String texto) => Column(
+        children: [
+          Icon(
+            icono,
+            size: 16,
+            color: Colors.grey,
+          ),
+          SizedBox(height: 4.0),
+          Text(texto, style: TextStyle(fontSize: 12, color: Colors.grey)),
+          SizedBox(height: 8)
+        ],
+      );
+
   Widget _getIconWithOval(IconData icono, Color inkColor, Color iconColor) =>
       ClipOval(
         child: Material(
@@ -233,6 +136,16 @@ class _BodyTemplateState extends State<BodyTemplate> {
               ),
             ),
           ),
+        ),
+      );
+
+  Widget _getText(String name) => Container(
+        width: 250,
+        child: Text(
+          name,
+          style: TextStyle(fontSize: 12, color: Colors.black54),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
         ),
       );
 
