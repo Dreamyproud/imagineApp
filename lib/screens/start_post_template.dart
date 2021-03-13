@@ -17,7 +17,6 @@ class StartPostTemplate extends StatefulWidget {
 
 class _StartPostTemplateState extends State<StartPostTemplate> {
   int selectedTab = 0;
-  ScrollController _scrollController;
   PageController _pageController;
 
   @override
@@ -28,47 +27,42 @@ class _StartPostTemplateState extends State<StartPostTemplate> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: getAppBar(context),
-      body: PageView(
-        controller: _pageController,
-        children: <Widget>[
-          StartPostBody(),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        appBar: getAppBar(context),
+        body: PageView(
+          controller: _pageController,
+          children: <Widget>[
+            StartPostBody(),
+          ],
+        ),
+      );
 }
 
-PreferredSizeWidget getAppBar(context) {
-  return AppBar(
-    backgroundColor: Colors.white,
-    elevation: 0.0,
-    leading: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Icon(
-          FontAwesomeIcons.times,
-          color: Colors.grey,
-          size: 20,
-        )),
-    title: Text("Start Post", style: TextStyle(color: Colors.black)),
-    centerTitle: true,
-    actions: <Widget>[
-      RaisedButton(
-        onPressed: () => {},
-        elevation: 0,
-        color: Colors.white,
-        child: Text(
-          'Post',
-          style: TextStyle(color: Colors.black),
+PreferredSizeWidget getAppBar(context) => AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0.0,
+      leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(
+            FontAwesomeIcons.times,
+            color: Colors.grey,
+            size: 20,
+          )),
+      title: Text("Start Post", style: TextStyle(color: Colors.black)),
+      centerTitle: true,
+      actions: <Widget>[
+        RaisedButton(
+          onPressed: () => {},
+          elevation: 0,
+          color: Colors.white,
+          child: Text(
+            'Post',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );

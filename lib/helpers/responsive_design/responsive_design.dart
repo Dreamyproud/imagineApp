@@ -25,25 +25,21 @@ class ResponsiveDesign {
     );
   }
 
-  // Ancho
   double widthMultiplier(double pixel) {
     double tempPercent = (pixel * 100.0) / 375.0;
     return (_width * tempPercent) / 100;
   }
 
-  // Alto
   double heightMultiplier(double pixel) {
     double tempPercent = (pixel * 100.0) / 667.0;
     return (_height * tempPercent) / 100;
   }
 
-  // Texto
   double textMultiplier(double size) {
     double tempPercent = size / 9;
     return inchPercent(tempPercent);
   }
 
-  // Diagonal
   double inchPercent(double percent) {
     return (_inch * percent) / 100;
   }

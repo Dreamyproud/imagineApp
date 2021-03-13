@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linkedin/screens/home_template.dart';
-import 'package:linkedin/screens/start_post_template.dart';
+import 'package:linkedin/screens/splash_screen/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: HomeTemplate(),
-      routes: <String, WidgetBuilder> {
-        '/startPostPage': (BuildContext context) => new StartPostTemplate(),
+      routes: <String, WidgetBuilder>{
+        '/startPostPage': (BuildContext context) => new SplashScreen(),
       },
     );
   }
