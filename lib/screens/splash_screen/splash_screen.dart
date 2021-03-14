@@ -41,52 +41,44 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: InkWell(
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  flex: 7,
-                  child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Image.asset(
-                            'images/logo.png',
-                            height: 300,
-                            width: 300,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                          ),
-                        ],
-                      )),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Container(
-                        height: 10,
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Container(
+        color: Colors.white,
+        child: InkWell(
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    flex: 7,
+                    child: Container(
+                      color: Colors.white,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Spacer(
-                              flex: 4,
+                            Image.asset(
+                              'assets/images/logo.png',
+                              height: 300,
+                              width: 300,
                             ),
-                            Text(''),
-                            Spacer(),
-                          ])
-                    ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                            ),
+                          ],
+                        )),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  Expanded(
+                    child: Column(
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

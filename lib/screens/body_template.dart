@@ -15,15 +15,19 @@ class _BodyTemplateState extends State<BodyTemplate> {
       "https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png";
 
   final Repository httpService = Repository();
-  final RefreshController _refreshController = RefreshController();
   ResponsiveDesign _responsiveDesign;
+
   @override
   Widget build(BuildContext context) {
     _responsiveDesign = ResponsiveDesign(context);
 
     return SingleChildScrollView(
       child: Column(
-        children: <Widget>[_stories(), _getSizedBox(context), _posts(context)],
+        children: <Widget>[
+          _stories(),
+          _getSizedBox(context),
+          _posts(context),
+        ],
       ),
     );
   }
@@ -60,10 +64,11 @@ class _BodyTemplateState extends State<BodyTemplate> {
                                       right: 12.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
-                                    child: Image(
-                                      image: NetworkImage(imgUrl),
-                                      height: 45.0,
-                                      width: 45.0,
+                                    child: Image.asset(
+                                      'assets/images/ceo.png',
+                                      height: 55.0,
+                                      width: 55.0,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -218,13 +223,19 @@ class _BodyTemplateState extends State<BodyTemplate> {
       padding: EdgeInsets.only(bottom: 5),
       margin: EdgeInsets.only(top: 6.0, left: 5.0),
       height: 100.0,
-      child: _createStories());
-
-  Widget _createStories() => ListView.builder(
-      scrollDirection: Axis.horizontal,
-      shrinkWrap: true,
-      itemCount: 10,
-      itemBuilder: (context, i) => _buttonStories());
+      child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              _buttonStories('Your history', 'assets/images/ceo.png'),
+              ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, i) => _buttonStories(
+                      'ImagineApp', 'assets/images/logoImagine.png')),
+            ],
+          )));
 
   Widget _returnButtons(IconData icono, String texto) => Column(
         children: [
@@ -239,7 +250,7 @@ class _BodyTemplateState extends State<BodyTemplate> {
         ],
       );
 
-  Widget _buttonStories() => Column(
+  Widget _buttonStories(String name, String path) => Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -256,8 +267,8 @@ class _BodyTemplateState extends State<BodyTemplate> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(50.0),
-                    child: Image(
-                      image: NetworkImage(imgUrl),
+                    child: Image.asset(
+                      path,
                       height: 55.0,
                       width: 55.0,
                       fit: BoxFit.cover,
@@ -283,10 +294,11 @@ class _BodyTemplateState extends State<BodyTemplate> {
             ),
           ),
           Text(
-            'Your history',
+            name,
+            textAlign: TextAlign.justify,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13.0),
-          )
+          ),
         ],
       );
 

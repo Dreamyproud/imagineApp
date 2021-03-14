@@ -153,8 +153,8 @@ class _StartPostBodyState extends State<StartPostBody> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(50.0),
-                          child: Image(
-                            image: NetworkImage(imgUrl),
+                          child: Image.asset(
+                            'assets/images/ceo.png',
                             height: 55.0,
                             width: 55.0,
                             fit: BoxFit.cover,

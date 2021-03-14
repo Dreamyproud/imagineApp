@@ -82,7 +82,9 @@ class _HomeTemplateState extends State<HomeTemplate> {
             padding: EdgeInsets.all(3),
             child: CircleAvatar(
               radius: 30.0,
-              backgroundImage: NetworkImage(imgUrl),
+              backgroundImage: AssetImage(
+                'assets/images/ceo.png',
+              ),
               backgroundColor: Colors.transparent,
             )),
       ),
