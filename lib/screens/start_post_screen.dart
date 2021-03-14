@@ -1,47 +1,82 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin/helpers/responsive_design/responsive_design.dart';
-import 'package:linkedin/providers/home_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:linkedin/repository/repository.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class StartPostBody extends StatefulWidget {
+class StartPostScreen extends StatefulWidget {
   @override
-  _StartPostBodyState createState() => _StartPostBodyState();
+  _StartPostScreenState createState() => _StartPostScreenState();
 }
 
-class _StartPostBodyState extends State<StartPostBody> {
+class _StartPostScreenState extends State<StartPostScreen> {
   String imgUrl =
       "https://png.pngtree.com/png-clipart/20190516/original/pngtree-users-vector-icon-png-image_3725294.jpg";
   ResponsiveDesign _responsiveDesign;
   Color _colorIcons = Colors.grey[600];
   TextEditingController controller;
-  String summaryProvider = '';
+  final Repository httpService = Repository();
+  PageController _pageController;
+  String data;
 
   @override
   void initState() {
     super.initState();
+    _pageController = new PageController();
   }
 
   @override
   Widget build(BuildContext context) {
     _responsiveDesign = ResponsiveDesign(context);
 
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _headerStartPost(),
-          _createStartPost(context),
-        ],
-      ),
-    );
+    return Scaffold(
+        appBar: getAppBar(context),
+        body: PageView(
+          controller: _pageController,
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  _headerStartPost(),
+                  _createStartPost(context),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 
-  _createStartPost(context) {
-    final provider = Provider.of<HomeProvider>(context);
+  PreferredSizeWidget getAppBar(context) => AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              FontAwesomeIcons.times,
+              color: Colors.grey,
+              size: 20,
+            )),
+        title: Text("Start Post", style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+        actions: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              createPostAction(data);
+            },
+            elevation: 0,
+            color: Colors.white,
+            child: Text(
+              'Post',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
+      );
 
+  _createStartPost(context) {
     return Container(
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -63,8 +98,8 @@ class _StartPostBodyState extends State<StartPostBody> {
                     textAlign: TextAlign.justify,
                     textInputAction: TextInputAction.newline,
                     scrollPhysics: NeverScrollableScrollPhysics(),
-                    onChanged: (value) => {
-                      provider.summary = value,
+                    onChanged: (value) {
+                      data = value;
                     },
                     style: TextStyle(fontSize: 18.0, color: Color(0xFFbdc6cf)),
                     decoration: InputDecoration(
@@ -90,6 +125,19 @@ class _StartPostBodyState extends State<StartPostBody> {
         ));
   }
 
+  void createPostAction(String summary) {
+    httpService.createPosts(summary);
+    Fluttertoast.showToast(
+        msg: "¡Tu publicación ha sido creada!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.blue,
+        textColor: Colors.white,
+        fontSize: 16.0);
+    Navigator.of(context).pop();
+  }
+
   Widget _showOverlay(context) => Material(
           child: Stack(alignment: Alignment.topCenter, children: <Widget>[
         SlidingUpPanel(
@@ -100,23 +148,27 @@ class _StartPostBodyState extends State<StartPostBody> {
             padding: EdgeInsets.all(_responsiveDesign.heightMultiplier(16.0)),
             panel: Align(
                 alignment: Alignment.topLeft,
-                child: Column(
-                  children: [
-                    Icon(FontAwesomeIcons.gripLines, color: _colorIcons),
-                    _getIconsOverlay(FontAwesomeIcons.image, "Add a photo"),
-                    _getIconsOverlay(FontAwesomeIcons.video, "Take a video"),
-                    _getIconsOverlay(
-                        FontAwesomeIcons.award, "Celebrate an occasion"),
-                    _getIconsOverlay(
-                        FontAwesomeIcons.fileAlt, "Add a document"),
-                    _getIconsOverlay(
-                        FontAwesomeIcons.briefcase, "Share that you're hiring"),
-                    _getIconsOverlay(
-                        FontAwesomeIcons.idBadge, "Find an expert"),
-                    _getIconsOverlay(FontAwesomeIcons.images, "Share a story"),
-                    _getIconsOverlay(
-                        FontAwesomeIcons.chartBar, "Create a poly"),
-                  ],
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Icon(FontAwesomeIcons.gripLines, color: _colorIcons),
+                      _getIconsOverlay(FontAwesomeIcons.image, "Add a photo"),
+                      _getIconsOverlay(FontAwesomeIcons.video, "Take a video"),
+                      _getIconsOverlay(
+                          FontAwesomeIcons.award, "Celebrate an occasion"),
+                      _getIconsOverlay(
+                          FontAwesomeIcons.fileAlt, "Add a document"),
+                      _getIconsOverlay(FontAwesomeIcons.briefcase,
+                          "Share that you're hiring"),
+                      _getIconsOverlay(
+                          FontAwesomeIcons.idBadge, "Find an expert"),
+                      _getIconsOverlay(
+                          FontAwesomeIcons.images, "Share a story"),
+                      _getIconsOverlay(
+                          FontAwesomeIcons.chartBar, "Create a poly"),
+                    ],
+                  ),
                 )))
       ]));
 

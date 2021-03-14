@@ -3,19 +3,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin/helpers/responsive_design/responsive_design.dart';
 import 'package:linkedin/models/post_model.dart';
 import 'package:linkedin/repository/repository.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class BodyTemplate extends StatefulWidget {
+class BodyHomeScreen extends StatefulWidget {
   @override
-  _BodyTemplateState createState() => _BodyTemplateState();
+  _BodyHomeScreenState createState() => _BodyHomeScreenState();
 }
 
-class _BodyTemplateState extends State<BodyTemplate> {
+class _BodyHomeScreenState extends State<BodyHomeScreen> {
   String imgUrl =
       "https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png";
 
   final Repository httpService = Repository();
   ResponsiveDesign _responsiveDesign;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,9 +190,18 @@ class _BodyTemplateState extends State<BodyTemplate> {
     );
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
-      onPressed: () {
-        httpService.deletePost(index);
+      onPressed: () async {
+        await httpService.deletePost(index);
         Navigator.of(context).pop();
+        setState(() {});
+        Fluttertoast.showToast(
+            msg: "Esta publicación ha sido eliminada",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            fontSize: 16.0);
       },
     );
     AlertDialog alert = AlertDialog(
@@ -198,7 +212,6 @@ class _BodyTemplateState extends State<BodyTemplate> {
         continueButton,
       ],
     );
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {

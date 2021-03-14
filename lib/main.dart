@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:linkedin/providers/home_provider.dart';
-import 'package:linkedin/screens/home_template.dart';
+import 'package:linkedin/screens/home_screen.dart';
 import 'package:linkedin/screens/splash_screen/splash_screen.dart';
-import 'package:linkedin/screens/start_post_template.dart';
+import 'package:linkedin/screens/start_post_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           home: SplashScreen(),
           routes: <String, WidgetBuilder>{
-            '/splashScreen': (BuildContext context) => new HomeTemplate(),
-            '/startPostPage': (BuildContext context) => new StartPostTemplate(),
+            '/splashScreen': (BuildContext context) => new HomeScreen(),
+            '/startPostPage': (BuildContext context) => new StartPostScreen(),
           },
         ));
   }

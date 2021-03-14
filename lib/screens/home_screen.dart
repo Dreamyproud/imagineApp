@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin/helpers/responsive_design/responsive_design.dart';
-import 'package:linkedin/screens/body_template.dart';
+import 'package:linkedin/screens/body_home_screen.dart';
 
-class HomeTemplate extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   final dynamic body;
 
-  HomeTemplate({
+  HomeScreen({
     Key key,
     this.body,
   }) : super(key: key);
 
   @override
-  _HomeTemplateState createState() => _HomeTemplateState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeTemplateState extends State<HomeTemplate> {
+class _HomeScreenState extends State<HomeScreen> {
   int selectedTab = 0;
   ScrollController _scrollController;
   PageController _pageController;
@@ -30,7 +30,7 @@ class _HomeTemplateState extends State<HomeTemplate> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
+   // _scrollController.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _HomeTemplateState extends State<HomeTemplate> {
         controller: _pageController,
         onPageChanged: onTabChanged,
         children: <Widget>[
-          BodyTemplate(),
+          BodyHomeScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -155,9 +155,36 @@ class _HomeTemplateState extends State<HomeTemplate> {
         ),
         title: Text('Post', style: TextStyle(fontSize: 13))));
     list.add(BottomNavigationBarItem(
-      icon: new Icon(FontAwesomeIcons.bell, size: 20),
+      icon: new Stack(
+        children: <Widget>[
+          new Icon(FontAwesomeIcons.bell, size: 20),
+          new Positioned(
+            right: 0,
+            child: new Container(
+              padding: EdgeInsets.all(1),
+              decoration: new BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              constraints: BoxConstraints(
+                minWidth: 12,
+                minHeight: 12,
+              ),
+              child: new Text(
+                '1',
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          )
+        ],
+      ),
       title: new Text('Notifications', style: TextStyle(fontSize: 13)),
     ));
+
     list.add(BottomNavigationBarItem(
       icon: new Icon(FontAwesomeIcons.briefcase, size: 20),
       title: new Text('Jobs', style: TextStyle(fontSize: 13)),

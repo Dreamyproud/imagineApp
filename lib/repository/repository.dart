@@ -19,35 +19,29 @@ class Repository {
           .toList();
       return posts;
     } else {
-      throw "Can't get posts.";
+      throw "Error al crear";
     }
   }
 
   Future<PostCreateModel> createPosts(String summary) async {
-    int id = 3;
     PostCreateModel postCreate = PostCreateModel();
     Map<String, String> headers = {'Content-Type': 'application/json'};
-    final msg =
-        jsonEncode({
-          "userId": id,
-          "summary": summary
-        });
+    final msg = jsonEncode({"userId": 3, "summary": summary});
 
     Response res = await post(createPath, headers: headers, body: msg);
     print(res.statusCode);
     if (res.statusCode == 200) {
       return postCreate;
     } else {
-      throw "Can't create posts.";
+      throw "Error";
     }
   }
 
   Future<void> deletePost(int id) async {
     Response res = await delete(deletePath + id.toString());
     if (res.statusCode == 200) {
-      print("DELETED");
     } else {
-      throw "Can't delete post.";
+      throw "Error al eliminar";
     }
   }
 }

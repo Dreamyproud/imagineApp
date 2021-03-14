@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:linkedin/providers/home_provider.dart';
 import 'package:linkedin/repository/repository.dart';
-import 'package:linkedin/screens/home_template.dart';
-import 'package:linkedin/screens/start_post_template.dart';
-import 'package:provider/provider.dart';
+import 'package:linkedin/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   final Color backgroundColor = Colors.blue;
   final TextStyle styleTextUnderTheLoader = TextStyle(
       fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -25,17 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
     httpService.getPosts();
   }
 
-
   _loadWidget() async {
     var _duration = Duration(seconds: splashDelay);
     return Timer(_duration, navigationPage);
   }
 
   void navigationPage() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => HomeTemplate()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
   }
 
   @override
@@ -53,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   Expanded(
                     flex: 7,
                     child: Container(
-                      color: Colors.white,
+                        color: Colors.white,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
