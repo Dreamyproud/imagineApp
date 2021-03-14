@@ -69,8 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   PreferredSizeWidget getAppBar() {
-    String imgUrl =
-        "https://cdn.icon-icons.com/icons2/1154/PNG/512/1486564400-account_81513.png";
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0.0,

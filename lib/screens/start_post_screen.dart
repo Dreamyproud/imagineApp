@@ -142,34 +142,35 @@ class _StartPostScreenState extends State<StartPostScreen> {
           child: Stack(alignment: Alignment.topCenter, children: <Widget>[
         SlidingUpPanel(
             borderRadius: BorderRadius.circular(20),
-            minHeight: MediaQuery.of(context).size.height - 0.20,
-            isDraggable: true,
-            backdropTapClosesPanel: true,
-            padding: EdgeInsets.all(_responsiveDesign.heightMultiplier(16.0)),
-            panel: Align(
-                alignment: Alignment.topLeft,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Column(
-                    children: [
-                      Icon(FontAwesomeIcons.gripLines, color: _colorIcons),
-                      _getIconsOverlay(FontAwesomeIcons.image, "Add a photo"),
-                      _getIconsOverlay(FontAwesomeIcons.video, "Take a video"),
-                      _getIconsOverlay(
-                          FontAwesomeIcons.award, "Celebrate an occasion"),
-                      _getIconsOverlay(
-                          FontAwesomeIcons.fileAlt, "Add a document"),
-                      _getIconsOverlay(FontAwesomeIcons.briefcase,
-                          "Share that you're hiring"),
-                      _getIconsOverlay(
-                          FontAwesomeIcons.idBadge, "Find an expert"),
-                      _getIconsOverlay(
-                          FontAwesomeIcons.images, "Share a story"),
-                      _getIconsOverlay(
-                          FontAwesomeIcons.chartBar, "Create a poly"),
-                    ],
-                  ),
-                )))
+            minHeight: MediaQuery.of(context).size.height * 0.50,
+            slideDirection: SlideDirection.DOWN,
+            collapsed: SingleChildScrollView(
+             scrollDirection: Axis.vertical,
+             child: Column(
+               children: [
+                 SizedBox(height: 10,),
+                 Icon(FontAwesomeIcons.gripLines, color: _colorIcons),
+                 SizedBox(height: 20,),
+                 _getIconsOverlay(FontAwesomeIcons.image, "Add a photo"),
+                 _getIconsOverlay(FontAwesomeIcons.video, "Take a video"),
+                 _getIconsOverlay(
+                     FontAwesomeIcons.award, "Celebrate an occasion"),
+                 _getIconsOverlay(
+                     FontAwesomeIcons.fileAlt, "Add a document"),
+                 _getIconsOverlay(FontAwesomeIcons.briefcase,
+                     "Share that you're hiring"),
+                 _getIconsOverlay(
+                     FontAwesomeIcons.idBadge, "Find an expert"),
+                 _getIconsOverlay(
+                     FontAwesomeIcons.images, "Share a story"),
+                 _getIconsOverlay(
+                     FontAwesomeIcons.chartBar, "Create a poly"),
+               ],
+             ),
+           ),
+            padding: EdgeInsets.symmetric(horizontal: _responsiveDesign.widthMultiplier(16.0),
+            vertical: _responsiveDesign.heightMultiplier(2.0)),
+            panel: Text(''))
       ]));
 
   Widget _getIconsOverlay(IconData icon, String texto) => Column(

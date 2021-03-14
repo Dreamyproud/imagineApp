@@ -91,14 +91,14 @@ class _BodyHomeScreenState extends State<BodyHomeScreen> {
                                     _getText('${post.date}'),
                                   ],
                                 ),
-                                Expanded(child: SizedBox()),
-                                IconButton(
+                                Expanded(child: IconButton(
                                   icon: Icon(Icons.more_horiz),
                                   iconSize: 30.0,
                                   onPressed: () {
                                     showAlertDialog(context, post.id);
                                   },
-                                )
+                                ),
+                                ),
                               ],
                             ),
                           ),
