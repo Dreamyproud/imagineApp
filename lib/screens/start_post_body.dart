@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:linkedin/helpers/responsive_design/responsive_design.dart';
+import 'package:linkedin/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class StartPostBody extends StatefulWidget {
@@ -14,6 +17,8 @@ class _StartPostBodyState extends State<StartPostBody> {
       "https://png.pngtree.com/png-clipart/20190516/original/pngtree-users-vector-icon-png-image_3725294.jpg";
   ResponsiveDesign _responsiveDesign;
   Color _colorIcons = Colors.grey[600];
+  TextEditingController controller;
+  String summaryProvider = '';
 
   @override
   void initState() {
@@ -23,60 +28,67 @@ class _StartPostBodyState extends State<StartPostBody> {
   @override
   Widget build(BuildContext context) {
     _responsiveDesign = ResponsiveDesign(context);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           _headerStartPost(),
-          _startPost(context),
+          _createStartPost(context),
         ],
       ),
     );
   }
 
-  Widget _startPost(BuildContext context) => Container(
-      width: MediaQuery.of(context).size.width,
-      child: _createStartPost(context));
+  _createStartPost(context) {
+    final provider = Provider.of<HomeProvider>(context);
 
-  _createStartPost(context) => Column(
-        children: <Widget>[
-          Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.30,
-              color: Colors.white,
-              constraints:
-                  BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
-              child: Theme(
-                data:
-                    Theme.of(context).copyWith(splashColor: Colors.transparent),
-                child: TextField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  autofocus: false,
-                  textAlign: TextAlign.justify,
-                  textInputAction: TextInputAction.newline,
-                  scrollPhysics: NeverScrollableScrollPhysics(),
-                  style: TextStyle(fontSize: 18.0, color: Color(0xFFbdc6cf)),
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintMaxLines: 3,
-                    fillColor: Colors.white,
-                    hintText: 'What do yo want to talk about?',
-                    contentPadding: const EdgeInsets.only(
-                        left: 14.0, bottom: 8.0, top: 8.0),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(25.7),
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(25.7),
+    return Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: <Widget>[
+            Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.30,
+                color: Colors.white,
+                constraints:
+                    BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+                child: Theme(
+                  data: Theme.of(context)
+                      .copyWith(splashColor: Colors.transparent),
+                  child: TextField(
+                    controller: controller,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    autofocus: false,
+                    textAlign: TextAlign.justify,
+                    textInputAction: TextInputAction.newline,
+                    scrollPhysics: NeverScrollableScrollPhysics(),
+                    onChanged: (value) => {
+                      provider.summary = value,
+                    },
+                    style: TextStyle(fontSize: 18.0, color: Color(0xFFbdc6cf)),
+                    decoration: InputDecoration(
+                      filled: true,
+                      hintMaxLines: 3,
+                      fillColor: Colors.white,
+                      hintText: 'What do yo want to talk about?',
+                      contentPadding: const EdgeInsets.only(
+                          left: 14.0, bottom: 8.0, top: 8.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(25.7),
+                      ),
                     ),
                   ),
-                ),
-              )),
-          _showOverlay(context)
-        ],
-      );
+                )),
+            _showOverlay(context)
+          ],
+        ));
+  }
 
   Widget _showOverlay(context) => Material(
           child: Stack(alignment: Alignment.topCenter, children: <Widget>[
@@ -86,7 +98,6 @@ class _StartPostBodyState extends State<StartPostBody> {
             isDraggable: true,
             backdropTapClosesPanel: true,
             padding: EdgeInsets.all(_responsiveDesign.heightMultiplier(16.0)),
-            //minHeight: MediaQuery.of(context).size.height - 0.20,
             panel: Align(
                 alignment: Alignment.topLeft,
                 child: Column(

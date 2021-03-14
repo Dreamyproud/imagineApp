@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:linkedin/providers/home_provider.dart';
+import 'package:linkedin/repository/repository.dart';
 import 'package:linkedin/screens/start_post_body.dart';
+import 'package:provider/provider.dart';
 
 class StartPostTemplate extends StatefulWidget {
   final dynamic body;
@@ -18,6 +21,8 @@ class StartPostTemplate extends StatefulWidget {
 class _StartPostTemplateState extends State<StartPostTemplate> {
   int selectedTab = 0;
   PageController _pageController;
+  final Repository httpService = Repository();
+  String providerSummary;
 
   @override
   void initState() {
@@ -31,40 +36,43 @@ class _StartPostTemplateState extends State<StartPostTemplate> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    final provider = Provider.of<HomeProvider>(context);
+    providerSummary = provider.summary;
+    return Scaffold(
         appBar: getAppBar(context),
         body: PageView(
           controller: _pageController,
           children: <Widget>[
             StartPostBody(),
           ],
-        ),
+        ));
+  }
+
+  PreferredSizeWidget getAppBar(context) => AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Icon(
+              FontAwesomeIcons.times,
+              color: Colors.grey,
+              size: 20,
+            )),
+        title: Text("Start Post", style: TextStyle(color: Colors.black)),
+        centerTitle: true,
+        actions: <Widget>[
+          RaisedButton(
+            onPressed: () => {
+              httpService.createPosts(providerSummary),
+            },
+            elevation: 0,
+            color: Colors.white,
+            child: Text(
+              'Post',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+        ],
       );
 }
-
-PreferredSizeWidget getAppBar(context) => AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0.0,
-      leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Icon(
-            FontAwesomeIcons.times,
-            color: Colors.grey,
-            size: 20,
-          )),
-      title: Text("Start Post", style: TextStyle(color: Colors.black)),
-      centerTitle: true,
-      actions: <Widget>[
-        RaisedButton(
-          onPressed: () => {
-            print("crear post")
-          },
-          elevation: 0,
-          color: Colors.white,
-          child: Text(
-            'Post',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-      ],
-    );

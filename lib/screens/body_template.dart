@@ -17,7 +17,6 @@ class _BodyTemplateState extends State<BodyTemplate> {
   final Repository httpService = Repository();
   final RefreshController _refreshController = RefreshController();
   ResponsiveDesign _responsiveDesign;
-
   @override
   Widget build(BuildContext context) {
     _responsiveDesign = ResponsiveDesign(context);
@@ -87,7 +86,7 @@ class _BodyTemplateState extends State<BodyTemplate> {
                                   icon: Icon(Icons.more_horiz),
                                   iconSize: 30.0,
                                   onPressed: () {
-                                    showAlertDialog(context);
+                                    showAlertDialog(context, post.id);
                                   },
                                 )
                               ],
@@ -172,7 +171,7 @@ class _BodyTemplateState extends State<BodyTemplate> {
     );
   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context, int index) {
     Widget cancelButton = FlatButton(
       child: Text("Cancelar"),
       onPressed: () {
@@ -182,10 +181,10 @@ class _BodyTemplateState extends State<BodyTemplate> {
     Widget continueButton = FlatButton(
       child: Text("Continuar"),
       onPressed: () {
-        //httpService.deletePost();
+        httpService.deletePost(index);
+        Navigator.of(context).pop();
       },
     );
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("¿Estás seguro de eliminar esta publicación?"),
       content: Text("Recuerda que no podrás volver a verla."),

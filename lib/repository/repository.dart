@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
+import 'package:linkedin/models/post_create_model.dart';
 import 'package:linkedin/models/post_model.dart';
 
 class Repository {
@@ -22,17 +23,20 @@ class Repository {
     }
   }
 
-  Future<List<PostModel>> createPosts(int id, String summary) async {
-    id = 3;
-    Response res = await post(createPath);
+  Future<PostCreateModel> createPosts(String summary) async {
+    int id = 3;
+    PostCreateModel postCreate = PostCreateModel();
+    Map<String, String> headers = {'Content-Type': 'application/json'};
+    final msg =
+        jsonEncode({
+          "userId": id,
+          "summary": summary
+        });
+
+    Response res = await post(createPath, headers: headers, body: msg);
+    print(res.statusCode);
     if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-      List<PostModel> posts = body
-          .map(
-            (dynamic item) => PostModel.fromJson(item),
-          )
-          .toList();
-      return posts;
+      return postCreate;
     } else {
       throw "Can't create posts.";
     }
